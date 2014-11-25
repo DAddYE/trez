@@ -8,6 +8,7 @@ You need:
 
 - opencv
 - libjpeg-turbo (suggested)
+- libpng (optional if you want to read png files)
 
 If you are on a mac and you have [brew](http://brew.sh) installed you can use [this
 formula](https://gist.githubusercontent.com/DAddYE/bd6a4819ec0bbb2efb0a/raw/opencv.rb)
@@ -19,7 +20,7 @@ brew install https://gist.githubusercontent.com/DAddYE/bd6a4819ec0bbb2efb0a/raw/
 then:
 
 ```
-go get github.com/DAddYE/trez
+go get github.com/daddye/trez
 ```
 
 ## Features
@@ -44,7 +45,7 @@ On my MacBook Pro mid 2012 (Yosemite):
 ```
 $ GOMAXPROCS=8 go run bench/main.go -file testdata/American_Dad.jpg -size 200x200 -workers 8
 
-## Resize speed of 10000
+## Resize speed of 10000 images
 
   mean: 22.15215ms
    max: 29.909601ms
