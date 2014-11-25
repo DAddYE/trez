@@ -16,6 +16,27 @@ formula](https://gist.githubusercontent.com/DAddYE/bd6a4819ec0bbb2efb0a/raw/open
 brew install https://gist.githubusercontent.com/DAddYE/bd6a4819ec0bbb2efb0a/raw/opencv.rb
 ```
 
+then:
+
+```
+go get github.com/DAddYE/trez
+```
+
+## Features
+
+It supports currently:
+
+- `fit` resize algo
+- `fill` resize algo
+- `background` color
+- `gravity` in case of `fit`
+- `quality` of jpeg (default `95`)
+
+## TODO
+
+- `trim` borders
+- `enlarge` option
+
 ## Benchmarks
 
 On my MacBook Pro mid 2012 (Yosemite):
@@ -29,7 +50,7 @@ $ GOMAXPROCS=8 go run bench/main.go -file testdata/American_Dad.jpg -size 200x20
    max: 29.909601ms
    %99: 27.517023ms
 stdDev: 1.707429ms
-  rate: 361.44 images resized per second
+  rate: 361.44 ops (images resized per second)
 ```
 
 ## LICENSE
