@@ -4,11 +4,12 @@ A super fast image resizer build on top of opencv and jpeg-turbo.
 
 --
 
-This package keeps a good quality of images however meant for _speed_.
+This package keeps a good quality of images however is built for _speed_.
 It will strip out image informations like IPTC, EXIF, ColorSync profile, etc.
 
-The benchmark below is just _illustrative_, this code is derived form a production version that
-process (at peek) more than `1000 images/s` on a single machine.
+The benchmark below is just _illustrative_.
+This code is derived form a production version that process (at peek) more than `1000 images/s` on a
+single machine.
 
 ## Install
 
