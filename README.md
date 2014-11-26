@@ -1,6 +1,14 @@
 # T-REZ
 
-A super fast image resizer build on top of opencv
+A super fast image resizer build on top of opencv and jpeg-turbo.
+
+--
+
+This package keeps a good quality of images however meant for _speed_.
+It will strip out image informations like IPTC, EXIF, ColorSync profile, etc.
+
+The benchmark below is just _illustrative_, this code is derived form a production version that
+process (at peek) more than `1000 images/s` on a single machine.
 
 ## Install
 
@@ -102,6 +110,13 @@ $ GOMAXPROCS=24 go run bench/main.go -file testdata/American_Dad.jpg -size 200x2
 stdDev: 4.781191ms
   rate: 700.16 ops (images resized per second)
 ```
+
+## Acknowledgement
+
+This library while maintain a good quality is meant for _speed_ so thumbnails, so will strip out
+unnecessary image informations like IPTC, EXIF, ColorSync profile, etc.
+
+The benchmark is just _illustrative_, this code is built out of 
 
 ## LICENSE
 
