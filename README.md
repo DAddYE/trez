@@ -112,13 +112,6 @@ stdDev: 4.781191ms
   rate: 700.16 ops (images resized per second)
 ```
 
-## Acknowledgement
-
-This library while maintain a good quality is meant for _speed_ so thumbnails, so will strip out
-unnecessary image informations like IPTC, EXIF, ColorSync profile, etc.
-
-The benchmark is just _illustrative_, this code is built out of 
-
 ## LICENSE
 
 Copyright (C) 2014 Davide D'Agostino
