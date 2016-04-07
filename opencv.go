@@ -147,43 +147,43 @@ var (
 // 	return data, nil
 // }
 
-func getLocatedRectangle(rectWidth C.int, rectHeight C.int, gravity Gravity, src *C.IplImage) C.CvRect {
-	rect := C.CvRect{}
-	rect.height = rectHeight
-	rect.width = rectWidth
-	switch gravity {
-	case CENTER:
-		rect.x = (src.width - rect.width) / 2
-		rect.y = (src.height - rect.height) / 2
-	case NORTH:
-		rect.x = (src.width - rect.width) / 2
-		rect.y = 0
-	case NORTH_WEST:
-		rect.x = 0
-		rect.y = 0
-	case NORTH_EAST:
-		rect.x = (src.width - rect.width)
-		rect.y = 0
-	case SOUTH:
-		rect.x = (src.width - rect.width) / 2
-		rect.y = (src.height - rect.height)
-	case SOUTH_WEST:
-		rect.x = 0
-		rect.y = (src.height - rect.height)
-	case SOUTH_EAST:
-		rect.x = (src.width - rect.width)
-		rect.y = (src.height - rect.height)
-	case WEST:
-		rect.x = 0
-		rect.y = (src.height - rect.height) / 2
-	case EAST:
-		rect.x = (src.width - rect.width)
-		rect.y = (src.height - rect.height) / 2
-	}
+// func getLocatedRectangle(rectWidth C.int, rectHeight C.int, gravity Gravity, src *C.IplImage) C.CvRect {
+// 	rect := C.CvRect{}
+// 	rect.height = rectHeight
+// 	rect.width = rectWidth
+// 	switch gravity {
+// 	case CENTER:
+// 		rect.x = (src.width - rect.width) / 2
+// 		rect.y = (src.height - rect.height) / 2
+// 	case NORTH:
+// 		rect.x = (src.width - rect.width) / 2
+// 		rect.y = 0
+// 	case NORTH_WEST:
+// 		rect.x = 0
+// 		rect.y = 0
+// 	case NORTH_EAST:
+// 		rect.x = (src.width - rect.width)
+// 		rect.y = 0
+// 	case SOUTH:
+// 		rect.x = (src.width - rect.width) / 2
+// 		rect.y = (src.height - rect.height)
+// 	case SOUTH_WEST:
+// 		rect.x = 0
+// 		rect.y = (src.height - rect.height)
+// 	case SOUTH_EAST:
+// 		rect.x = (src.width - rect.width)
+// 		rect.y = (src.height - rect.height)
+// 	case WEST:
+// 		rect.x = 0
+// 		rect.y = (src.height - rect.height) / 2
+// 	case EAST:
+// 		rect.x = (src.width - rect.width)
+// 		rect.y = (src.height - rect.height) / 2
+// 	}
 
-	return rect
+// 	return rect
 
-}
+// }
 
 func Resize(data []byte, options Options) ([]byte, error) {
 	if len(data) == 0 {
