@@ -314,6 +314,7 @@ func Resize(data []byte, options Options) ([]byte, error) {
 
 		C.cvSetImageROI(mid, rect)
 		dst = (*C.IplImage)(C.cvClone(unsafe.Pointer(mid)))
+		defer C.cvReleaseImage(&dst)
 		C.cvResetImageROI(mid)
 	}
 
