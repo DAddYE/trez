@@ -203,9 +203,9 @@ func Resize(data []byte, options Options) ([]byte, error) {
 
 	// check it's a valid source
 	if src == nil || src.width == 0 || src.height == 0 {
+		C.cvReleaseImage(&src)
 		return nil, errInvalidSourceFormat
 	}
-	defer C.cvReleaseImage(&src)
 
 	// set some defaults
 	if options.Width == 0 {
@@ -219,7 +219,6 @@ func Resize(data []byte, options Options) ([]byte, error) {
 	// prepare the destination image
 	size := C.cvSize(C.int(options.Width), C.int(options.Height))
 	dst := C.cvCreateImage(size, src.depth, src.nChannels)
-	defer C.cvReleaseImage(&dst)
 
 	// get the x,y factor
 	xf := float64(dst.width) / float64(src.width)
@@ -267,6 +266,7 @@ func Resize(data []byte, options Options) ([]byte, error) {
 		C.cvSet(unsafe.Pointer(dst), C.cvScalar(C.double(b), C.double(g), C.double(r), 0), nil)
 		C.cvSetImageROI(dst, rect)
 		C.cvResize(unsafe.Pointer(src), unsafe.Pointer(dst), C.CV_INTER_AREA)
+		C.cvReleaseImage(&src)
 		C.cvResetImageROI(dst)
 	case FILL:
 		ratio := math.Max(xf, yf)
@@ -275,10 +275,9 @@ func Resize(data []byte, options Options) ([]byte, error) {
 			C.int(math.Ceil(float64(src.height)*ratio)),
 		)
 		mid := C.cvCreateImage(size, src.depth, src.nChannels)
-		defer C.cvReleaseImage(&mid)
 
 		C.cvResize(unsafe.Pointer(src), unsafe.Pointer(mid), C.CV_INTER_AREA)
-
+		C.cvReleaseImage(&src)
 		switch options.Gravity {
 		case CENTER:
 			rect.x = (mid.width - dst.width) / 2
@@ -314,8 +313,7 @@ func Resize(data []byte, options Options) ([]byte, error) {
 
 		C.cvSetImageROI(mid, rect)
 		dst = (*C.IplImage)(C.cvClone(unsafe.Pointer(mid)))
-		defer C.cvReleaseImage(&dst)
-		C.cvResetImageROI(mid)
+		C.cvReleaseImage(&mid)
 	}
 
 	// set default compression
@@ -332,6 +330,7 @@ func Resize(data []byte, options Options) ([]byte, error) {
 	// encode
 	ext := C.CString(".jpg")
 	ret := C.cvEncodeImage(ext, unsafe.Pointer(dst), &compression[0])
+	C.cvReleaseImage(&dst)
 	C.free(unsafe.Pointer(ext))
 
 	if ret == nil {
