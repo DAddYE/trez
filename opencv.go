@@ -202,6 +202,7 @@ func resize(src *C.IplImage, options Options) ([]byte, error) {
 	var final *C.IplImage
 	if options.SharpenAmount > 0 && options.SharpenRadius > 0 {
 		final = C.sharpen(dst, C.int(options.SharpenAmount), C.double(options.SharpenRadius))
+		defer C.release(final)
 	} else {
 		final = dst
 	}

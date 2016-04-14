@@ -15,4 +15,10 @@ IplImage* sharpen(IplImage* img, int sharpenAmount, double radius) {
     *image = static_cast<IplImage>(*sharpened); 
     return image;
 }
+
+void release(IplImage* img) {
+    // Convert IplImage* -> Mat
+    cv::Mat mat(img);
+    mat.deallocate();
+}
 } // extern "C"

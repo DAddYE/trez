@@ -5,6 +5,7 @@
     #endif
     #include <opencv/cv.h>
     IplImage* sharpen(IplImage* img, int sharpenAmount, double radius);
+    void release(IplImage* img);
     #ifdef __cplusplus
     }
     #endif
