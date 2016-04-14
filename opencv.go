@@ -1,11 +1,14 @@
 package trez
 
+//#cgo LDFLAGS: -I/usr/local/include/opencv -lm -lopencv_core -lopencv_highgui -lopencv_imgproc
 //#cgo CFLAGS: -Wall -Wextra -Os -Wno-unused-function -Wno-unused-parameter
 //#cgo linux  pkg-config: opencv
 //#cgo darwin pkg-config: opencv
 //
 //#include <opencv/highgui.h>
 //#include <opencv/cv.h>
+//
+//#include "sharpen.h"
 //
 //uchar* ptr_from_mat(CvMat* mat){
 //	return mat->data.ptr;
@@ -27,6 +30,17 @@ var (
 	errEncoding            = errors.New("error during encoding")
 )
 
+func ResizeFromFile(file string, options Options) ([]byte, error) {
+	filePath := C.CString(file)
+	defer C.free(unsafe.Pointer(filePath))
+
+	image := C.cvLoadImage(filePath, C.CV_LOAD_IMAGE_COLOR)
+	if image == nil || image.width == 0 || image.height == 0 {
+		return nil, errInvalidSourceFormat
+	}
+	return resize(image, options)
+}
+
 func Resize(data []byte, options Options) ([]byte, error) {
 	if len(data) == 0 {
 		return nil, errNoData
@@ -43,6 +57,10 @@ func Resize(data []byte, options Options) ([]byte, error) {
 	src := C.cvDecodeImage(mat, C.CV_LOAD_IMAGE_COLOR)
 	C.cvReleaseMat(&mat)
 
+	return resize(src, options)
+}
+
+func resize(src *C.IplImage, options Options) ([]byte, error) {
 	// Validate the source
 	if src == nil || src.width == 0 || src.height == 0 {
 		return nil, errInvalidSourceFormat
@@ -182,9 +200,18 @@ func Resize(data []byte, options Options) ([]byte, error) {
 		0,
 	}
 
+	// Okay, we have our "final" image. Do we need to sharpen it?
+	var final *C.IplImage
+	if options.SharpenAmount > 0 && options.SharpenRadius > 0 {
+		img := C.sharpen(dst, C.int(options.SharpenAmount), C.double(options.SharpenRadius))
+		final = &img
+	} else {
+		final = dst
+	}
+
 	// encode
 	ext := C.CString(".jpg")
-	ret := C.cvEncodeImage(ext, unsafe.Pointer(dst), &compression[0])
+	ret := C.cvEncodeImage(ext, unsafe.Pointer(final), &compression[0])
 	C.free(unsafe.Pointer(ext))
 
 	if ret == nil {
@@ -192,7 +219,7 @@ func Resize(data []byte, options Options) ([]byte, error) {
 	}
 
 	ptr := C.ptr_from_mat(ret)
-	data = C.GoBytes(unsafe.Pointer(ptr), ret.step)
+	data := C.GoBytes(unsafe.Pointer(ptr), ret.step)
 	C.cvReleaseMat(&ret)
 
 	return data, nil
