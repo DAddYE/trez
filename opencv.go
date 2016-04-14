@@ -1,7 +1,5 @@
 package trez
 
-//#cgo LDFLAGS: -I/usr/local/include/opencv -lm -lopencv_core -lopencv_highgui -lopencv_imgproc
-//#cgo CFLAGS: -Wall -Wextra -Os -Wno-unused-function -Wno-unused-parameter
 //#cgo linux  pkg-config: opencv
 //#cgo darwin pkg-config: opencv
 //
@@ -203,8 +201,7 @@ func resize(src *C.IplImage, options Options) ([]byte, error) {
 	// Okay, we have our "final" image. Do we need to sharpen it?
 	var final *C.IplImage
 	if options.SharpenAmount > 0 && options.SharpenRadius > 0 {
-		img := C.sharpen(dst, C.int(options.SharpenAmount), C.double(options.SharpenRadius))
-		final = &img
+		final = C.sharpen(dst, C.int(options.SharpenAmount), C.double(options.SharpenRadius))
 	} else {
 		final = dst
 	}

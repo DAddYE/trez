@@ -4,7 +4,7 @@
     extern "C" {
     #endif
     #include <opencv/cv.h>
-    IplImage sharpen(IplImage* img, int sharpenAmount, double radius);
+    IplImage* sharpen(IplImage* img, int sharpenAmount, double radius);
     #ifdef __cplusplus
     }
     #endif
