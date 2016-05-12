@@ -12,7 +12,8 @@ import (
 	"sync"
 	"time"
 
-	"github.com/daddye/trez"
+	"github.com/benclarkwood/trez"
+	"github.com/pkg/profile"
 	"github.com/rcrowley/go-metrics"
 )
 
@@ -31,6 +32,8 @@ func printStats() {
 }
 
 func main() {
+	p := profile.Start(profile.MemProfile, profile.ProfilePath("."))
+	defer p.Stop()
 	times := 10000
 	workers := runtime.GOMAXPROCS(0)
 	filename := ""

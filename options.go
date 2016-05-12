@@ -22,13 +22,15 @@ const (
 )
 
 type Options struct {
-	Width      int
-	Height     int
-	Algo       Algo
-	Background [3]int
-	Gravity    Gravity
-	Enalarge   bool
-	Quality    int
+	Width         int
+	Height        int
+	Algo          Algo
+	Background    [3]int
+	Gravity       Gravity
+	Enalarge      bool
+	Quality       int
+	SharpenRadius float64
+	SharpenAmount int
 }
 
 func (a Algo) String() string {
